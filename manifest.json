@@ -1,0 +1,27 @@
+{
+  "name": "BBS statistic",
+  "description": "Show a visualization of BBS statistic",
+  "version": "1.0",
+  "manifest_version": 3,
+  "permissions": [],
+  "content_scripts": [
+    {
+      "matches": ["https://bbs.pku.edu.cn/v2/userstat.php", "http://localhost:8002/"],
+      "js": ["d3.v7.js", "show.js"]
+    }
+  ],
+  "action": {
+    "default_icon": {
+      "16": "/images/get_started16.png",
+      "32": "/images/get_started32.png",
+      "48": "/images/get_started48.png",
+      "128": "/images/get_started128.png"
+    }
+  },
+  "icons": {
+    "16": "/images/get_started16.png",
+    "32": "/images/get_started32.png",
+    "48": "/images/get_started48.png",
+    "128": "/images/get_started128.png"
+  }
+}
