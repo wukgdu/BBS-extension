@@ -3,7 +3,13 @@
   "description": "Show a visualization of BBS statistic",
   "version": "1.0",
   "manifest_version": 3,
-  "permissions": [],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["activeTab", "webNavigation", "scripting"],
+  "host_permissions": [
+    "https://bbs.pku.edu.cn/v2/userstat.php"
+  ],
   "content_scripts": [
     {
       "matches": ["https://bbs.pku.edu.cn/v2/userstat.php", "http://localhost:8002/"],

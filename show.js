@@ -54,9 +54,10 @@ function gen_ym(d) {
     return `${d.year}-${d.month}`;
 }
 
-function draw_one_table(table_node) {
+function draw_one_table(table_node, table_name, which) {
     let table_data = get_one_table(table_node);
-    let data = table_data[0];
+    let table_idx = which || 0;
+    let data = table_data[table_idx];
 
     let date2idx = {};
     let idx2date = {};
@@ -69,11 +70,11 @@ function draw_one_table(table_node) {
     let margin = ({top: 20, right: 30, bottom: 30, left: 40});
 
     let new_div_ele = document.createElement("div");
-    new_div_ele.id = "new_div";
+    new_div_ele.className = "new_div" + " " + table_name;
     insertAfter(table_node, new_div_ele);
-    let new_div = d3.select("#new_div");
+    let new_div = d3.select(`.new_div.${table_name}`);
     // new_div.style("width", "100%");
-    // new_div.style("height", "20vh");
+    new_div.style("height", parseFloat(new_div.style("width"))*0.3+"px");
     let svg = new_div.append("svg")
         .style("width", "100%")
         .style("height", "100%")
@@ -112,14 +113,29 @@ function draw_one_table(table_node) {
         .attr("d", line)
 }
 
-function get_data() {
+function main() {
     let tables = d3.selectAll(".table-stat-normal");
     let [login_table, post_table, browse_table] = tables;
+    if (!post_table) {
+        return;
+    }
     // let login_data = get_table(login_table);
     // console.log(login_data);
     // let post_data = get_one_table(post_table);
     // console.log(post_data);
-    draw_one_table(post_table);
+    draw_one_table(login_table, "login-table", 1);
+    draw_one_table(post_table, "post-table");
+    draw_one_table(browse_table, "browse-table", 3);
 }
 
-get_data();
+// chrome.runtime.onMessage.addListener(
+//     function (request, sender, sendResponse) {
+//         console.log(sender.tab ?
+//             "from a content script:" + sender.tab.url :
+//             "from the extension");
+//         if (request.greeting === "hello")
+//             sendResponse({ farewell: "goodbye" });
+//     }
+// );
+
+main();
