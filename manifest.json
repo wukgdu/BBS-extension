@@ -12,7 +12,7 @@
   ],
   "content_scripts": [
     {
-      "matches": ["https://bbs.pku.edu.cn/v2/userstat.php", "http://localhost:8002/"],
+      "matches": ["https://bbs.pku.edu.cn/v2/userstat.php"],
       "js": ["d3.v7.js", "show.js"]
     }
   ],
