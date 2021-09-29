@@ -69,6 +69,7 @@ function draw_one_table(table_node, table_name, which) {
 
     let margin = ({top: 20, right: 30, bottom: 30, left: 40});
 
+    d3.select(`.new_div.${table_name}`).remove();
     let new_div_ele = document.createElement("div");
     new_div_ele.className = "new_div" + " " + table_name;
     insertAfter(table_node, new_div_ele);
