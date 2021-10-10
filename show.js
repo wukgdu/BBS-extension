@@ -54,6 +54,24 @@ function gen_ym(d) {
     return `${d.year}-${d.month}`;
 }
 
+function gen_fake_idx2date(delta, y, m) {
+    let dy = Math.trunc(delta/12);
+    let dm = Math.trunc(delta%12);
+    let resy = y+dy;
+    let resm = m+dm;
+    let mm = 0;
+    if (resm > 12) {
+        mm = 1;
+    } else if (resm < 1) {
+        mm = -1;
+    }
+    if (mm != 0) {
+        resy += mm;
+        resm -= mm * 12;
+    }
+    return [resy, resm];
+}
+
 function draw_one_table(table_node, table_name, which) {
     let table_data = get_one_table(table_node);
     let table_idx = which || 0;
@@ -96,7 +114,14 @@ function draw_one_table(table_node, table_name, which) {
     let x_axis = g => g
         .attr("transform", `translate(0, ${height-margin.bottom})`)
         .call(d3.axisBottom(x).tickFormat(d => {
-            let [y, m] = idx2date[d];
+            let y = null, m = null;
+            if (idx2date[d]) {
+                [y, m] = idx2date[d];
+            } else {
+                let maxk = Math.max(...Object.keys(idx2date).map(d => +d));
+                let [tempy, tempm] = idx2date[maxk];
+                [y, m] = gen_fake_idx2date(+d-maxk, tempy, tempm);
+            }
             return `${y}-${m}`;
         }))
 
