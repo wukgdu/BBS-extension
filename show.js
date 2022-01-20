@@ -1,3 +1,91 @@
+function shortNum(d) {
+    var array = ['', 'K', 'M', 'G', 'T', 'P'];
+    var i = 0;
+    while (d >= 1000) {
+        i++;
+        d = d / 1000;
+    }
+    d = d + '' + array[i];
+    return d;
+}
+function shortNum2(d) {
+    var array = ['', 'K', 'M', 'G', 'T', 'P'];
+    var i = 0;
+    while (d >= 1000) {
+        i++;
+        d = d / 1000;
+    }
+    return [d, array[i]];
+}
+function genTickInfo(minvalue, maxvalue, count, add1=false) {
+    minvalue = 0;
+    let maxdata = maxvalue;
+    // console.log(maxvalue)
+    let tickValues = {
+        tickValues: [],
+        unit: 1,
+        tickValuesSmall: [],
+        maxV: 10,
+    }
+    if (maxvalue > 0) {
+        let temp = 10**Math.trunc(Math.log10(maxvalue));
+        let temp2 = maxvalue/temp;
+        if (add1) {
+            temp2 += 1;
+        }
+        maxdata = Math.ceil(temp2)*temp;
+        let maxdatasmall = Math.ceil(temp2);
+        if (Math.round(temp2) != Math.ceil(temp2)) {
+            maxdata = (Math.floor(temp2) + 0.5) * temp;
+            maxdatasmall = Math.floor(temp2) + 0.5;
+        }
+        // console.log(maxdata, maxdatasmall)
+        let delta = (maxdatasmall - minvalue) / count;
+        let [shortUnit1, shortUnit2] = shortNum2(temp);
+        let divinum = 100;
+        for (let i=minvalue; i<=maxdatasmall; i+=delta) {
+            // toFixed(1), temp>5: only for count=5
+            let cv = parseFloat((i).toFixed(1));
+            let v = cv*temp;
+            if (temp > 5) {
+                v = Math.round(v);
+            } else {
+                v = cv;
+            }
+            tickValues.tickValues.push(v);
+            if (temp <= divinum) {
+                let v = cv*temp;
+                if (temp > 5) {
+                    v = Math.round(v);
+                } else {
+                    v = cv;
+                }
+                tickValues.tickValuesSmall.push(v);
+            } else {
+                let v = cv*shortUnit1;
+                if (shortUnit1 > 5) {
+                    v = Math.round(v);
+                }
+                tickValues.tickValuesSmall.push(v);
+            }
+        }
+        if (temp <= divinum) {
+            tickValues.unit = 1;
+        } else {
+            tickValues.unit = temp / shortUnit1;
+        }
+        tickValues.maxV = maxdata;
+    } else {
+        maxdata = 10*count;
+        for (let i=0; i<=count; ++i) {
+            tickValues.tickValues.push(i*10);
+            tickValues.tickValuesSmall.push(i*10);
+        }
+        tickValues.maxV = maxdata;
+    }
+    return [maxdata, tickValues];
+}
+
 function get_one_table(table_node) {
     let table = d3.select(table_node);
     let thead = table.select("thead");
@@ -103,8 +191,11 @@ function draw_one_table(table_node, table_name, which) {
     let x = d3.scaleLinear()
         .domain([0, data['value'].length-1]).nice()
         .range([margin.left, width-margin.right]);
+    let [vmin, vmax] = d3.extent(data['value'].map(d => d.value));
+    let [maxV, tickValues] = genTickInfo(0, vmax, 5);
+    // console.log(tickValues)
     let y = d3.scaleLinear()
-        .domain(d3.extent(data['value'].map(d => d.value))).nice()
+        .domain([vmin, maxV])
         .range([height-margin.bottom, margin.top]);
     
     let line = d3.line()
@@ -127,7 +218,7 @@ function draw_one_table(table_node, table_name, which) {
 
     let y_axis = g => g
         .attr("transform", `translate(${margin.left}, 0)`)
-        .call(d3.axisLeft(y))
+        .call(d3.axisLeft(y).tickValues(tickValues.tickValues).tickFormat(shortNum));
     
     svg.append("g").call(x_axis);
     svg.append("g").call(y_axis);
