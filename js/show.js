@@ -231,6 +231,7 @@ function draw_one_table(table_node, table_name, which) {
 }
 
 function main() {
+    // console.log("42", Date(Date.now()));
     let tables = d3.selectAll(".table-stat-normal");
     let [login_table, post_table, browse_table] = tables;
     if (!post_table) {
@@ -247,11 +248,12 @@ function main() {
 
 // chrome.runtime.onMessage.addListener(
 //     function (request, sender, sendResponse) {
-//         console.log(sender.tab ?
-//             "from a content script:" + sender.tab.url :
-//             "from the extension");
-//         if (request.greeting === "hello")
-//             sendResponse({ farewell: "goodbye" });
+//         console.log(sender);
+//         console.log(request);
+//         if (request.action === "userstat") {
+//             main();
+//             // sendResponse({ farewell: "goodbye" });
+//         }
 //     }
 // );
 
