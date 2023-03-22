@@ -160,11 +160,7 @@ function gen_fake_idx2date(delta, y, m) {
     return [resy, resm];
 }
 
-function draw_one_table(table_node, table_name, which) {
-    let table_data = get_one_table(table_node);
-    let table_idx = which || 0;
-    let data = table_data[table_idx];
-
+function draw_single_table(data, table_name, table_node) {
     let date2idx = {};
     let idx2date = {};
     for (let i=0; i<data['value'].length; ++i) {
@@ -173,7 +169,7 @@ function draw_one_table(table_node, table_name, which) {
         idx2date[i] = [data['value'][i].year, data['value'][i].month];
     }
 
-    let margin = ({top: 20, right: 30, bottom: 30, left: 40});
+    let margin = ({top: 25, right: 30, bottom: 30, left: 40});
 
     d3.select(`.new_div.${table_name}`).remove();
     let new_div_ele = document.createElement("div");
@@ -222,12 +218,24 @@ function draw_one_table(table_node, table_name, which) {
     
     svg.append("g").call(x_axis);
     svg.append("g").call(y_axis);
+    svg.append("g").append("text")
+        .style("alignment-baseline", "text-before-edge")
+        .text(table_name);
     svg.append("path")
         .datum(data['value'])
         .attr("fill", "none")
         .attr("stroke", "steelblue")
         .attr("stroke-width", 2)
         .attr("d", line)
+}
+
+function draw_one_table(table_node) {
+    let table_data = get_one_table(table_node);
+    for (let data of table_data) {
+        let table_single_title = data['title'];
+        table_single_title = table_single_title.split(" ")[0].split("(")[0].split("（")[0];
+        draw_single_table(data, table_single_title, table_node);
+    }
 }
 
 function main() {
@@ -237,13 +245,14 @@ function main() {
     if (!post_table) {
         return;
     }
+    // console.log("43", Date(Date.now()));
     // let login_data = get_table(login_table);
     // console.log(login_data);
     // let post_data = get_one_table(post_table);
     // console.log(post_data);
-    draw_one_table(login_table, "login-table", 1);
-    draw_one_table(post_table, "post-table");
-    draw_one_table(browse_table, "browse-table", 3);
+    draw_one_table(login_table);
+    draw_one_table(post_table);
+    draw_one_table(browse_table);
 }
 
 // chrome.runtime.onMessage.addListener(
