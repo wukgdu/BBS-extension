@@ -20,12 +20,19 @@ async function searchUser(userName) {
     return res.json();
 }
 
+function isSpace(c) {
+    if ((c==' ') || (c=="\u00a0")) {
+        return true;
+    }
+    return false;
+}
+
 function travelP(postContentDom) {
     let pDoms = postContentDom.childNodes;
     for (let pDom of pDoms) {
         if (pDom.nodeType == pDom.TEXT_NODE) {
             let textContent = new String(pDom.textContent);
-            textContent = textContent.replaceAll("\u00a0", " ");
+            // textContent = textContent.replaceAll("\u00a0", " ");
             let aMatches = textContent.matchAll("@[a-zA-Z_]+");
             let validMentions = [];
             for (let aMatch of aMatches) {
@@ -33,8 +40,8 @@ function travelP(postContentDom) {
                 if (index < 0) { continue; }
                 let content = aMatch[0];
                 let eIndex = index + content.length;
-                if ((index == 0) || (textContent[index-1]==' ')) {
-                    if ((eIndex == textContent.length) || (textContent[eIndex]==" ")) {
+                if ((index == 0) || isSpace(textContent[index-1])) {
+                    if ((eIndex == textContent.length) || isSpace(textContent[eIndex])) {
                         // console.log(aMatch);
                         validMentions.push({
                             s: index,
