@@ -231,7 +231,7 @@ function draw_single_table(data, table_name, table_node) {
 
 function draw_one_table(table_node) {
     let table_data = get_one_table(table_node);
-    for (let data of table_data) {
+    for (let data of table_data.reverse()) {
         let table_single_title = data['title'];
         table_single_title = table_single_title.split(" ")[0].split("(")[0].split("（")[0];
         draw_single_table(data, table_single_title, table_node);
