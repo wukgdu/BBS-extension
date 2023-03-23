@@ -59,6 +59,10 @@ function travelP(postContentDom) {
                     let res = await searchUser(userName);
                     if ((res.success === true) && (res.result.length > 0)) {
                         let userInfo = res.result[0];
+                        if (userInfo === false) {
+                            alert("该用户不存在");
+                            return;
+                        }
                         window.location.href = `https://bbs.pku.edu.cn/v2/user.php?uid=${userInfo.id}`;
                     }
                 }
