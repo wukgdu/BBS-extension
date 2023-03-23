@@ -1,6 +1,6 @@
 {
-  "name": "BBS statistic",
-  "description": "Show a visualization of BBS statistic",
+  "name": "BBS extension",
+  "description": "未名 BBS 网页扩展",
   "version": "1.0",
   "manifest_version": 3,
   "background": {
@@ -8,12 +8,17 @@
   },
   "permissions": ["activeTab", "webNavigation", "scripting"],
   "host_permissions": [
-    "https://bbs.pku.edu.cn/v2/userstat.php"
+    "https://bbs.pku.edu.cn/v2/userstat.php",
+    "https://bbs.pku.edu.cn/v2/post-read.php?bid=*&threadid=*"
   ],
   "content_scripts": [
     {
       "matches": ["https://bbs.pku.edu.cn/v2/userstat.php"],
       "js": ["lib/d3.v7.js", "js/show.js"]
+    },
+    {
+      "matches": ["https://bbs.pku.edu.cn/v2/post-read.php?bid=*&threadid=*"],
+      "js": ["js/highlight_user.js"]
     }
   ],
   "action": {

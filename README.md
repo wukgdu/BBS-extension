@@ -6,3 +6,4 @@
 
 ## 功能
 - 在 https://bbs.pku.edu.cn/v2/userstat.php 绘制折线图
+- 在主题帖高亮@用户，点击访问该用户信息页面
