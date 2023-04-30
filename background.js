@@ -1,5 +1,12 @@
 chrome.webNavigation.onHistoryStateUpdated.addListener(async function (details) {
   // console.log(details)
+  if (details.url.startsWith("https://bbs.pku.edu.cn/v2/")) {
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    chrome.scripting.executeScript({
+      target: { tabId: tab.id },
+      files: ["js/hide_me.js"]
+    })
+  }
   if (details.url == "https://bbs.pku.edu.cn/v2/userstat.php") {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     chrome.scripting.executeScript({

@@ -9,7 +9,8 @@
   "permissions": ["activeTab", "webNavigation", "scripting"],
   "host_permissions": [
     "https://bbs.pku.edu.cn/v2/userstat.php",
-    "https://bbs.pku.edu.cn/v2/post-read.php?bid=*&threadid=*"
+    "https://bbs.pku.edu.cn/v2/post-read.php?bid=*&threadid=*",
+    "https://bbs.pku.edu.cn/v2/*"
   ],
   "content_scripts": [
     {
@@ -19,6 +20,10 @@
     {
       "matches": ["https://bbs.pku.edu.cn/v2/post-read.php?bid=*&threadid=*"],
       "js": ["js/highlight_user.js"]
+    },
+    {
+      "matches": ["https://bbs.pku.edu.cn/v2/*"],
+      "js": ["js/hide_me.js"]
     }
   ],
   "action": {

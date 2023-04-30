@@ -238,7 +238,7 @@ function draw_one_table(table_node) {
     }
 }
 
-function main() {
+function show_stat() {
     // console.log("42", Date(Date.now()));
     let tables = d3.selectAll(".table-stat-normal");
     let [login_table, post_table, browse_table] = tables;
@@ -266,4 +266,4 @@ function main() {
 //     }
 // );
 
-main();
+show_stat();
