@@ -1,6 +1,5 @@
 function hide_me_helper(selector, content) {
     let that_dom = document.querySelector(selector);
-    console.log(that_dom);
     if (that_dom != null) {
         that_dom.textContent = content;
     }
