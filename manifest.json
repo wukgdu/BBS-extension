@@ -23,7 +23,7 @@
     },
     {
       "matches": ["https://bbs.pku.edu.cn/v2/*"],
-      "js": ["js/hide_me.js"]
+      "js": ["js/hide_me.js", "js/remove_avatar_frame.js"]
     }
   ],
   "action": {

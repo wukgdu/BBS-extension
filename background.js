@@ -4,7 +4,7 @@ chrome.webNavigation.onHistoryStateUpdated.addListener(async function (details) 
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     chrome.scripting.executeScript({
       target: { tabId: tab.id },
-      files: ["js/hide_me.js"]
+      files: ["js/hide_me.js", "js/remove_avatar_frame.js"]
     })
   }
   if (details.url == "https://bbs.pku.edu.cn/v2/userstat.php") {
