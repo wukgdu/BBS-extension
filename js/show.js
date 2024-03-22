@@ -134,10 +134,6 @@ function get_one_table(table_node) {
     return data;
 }
 
-function insertAfter(referenceNode, newNode) {
-    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-}
-
 function gen_ym(d) {
     return `${d.year}-${d.month}`;
 }

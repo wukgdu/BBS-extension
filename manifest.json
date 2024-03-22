@@ -15,7 +15,7 @@
   "content_scripts": [
     {
       "matches": ["https://bbs.pku.edu.cn/v2/userstat.php"],
-      "js": ["lib/d3.v7.js", "js/show.js"]
+      "js": ["lib/d3.v7.js", "js/utils.js", "js/show.js"]
     },
     {
       "matches": ["https://bbs.pku.edu.cn/v2/post-read.php?bid=*&threadid=*"],
@@ -23,7 +23,7 @@
     },
     {
       "matches": ["https://bbs.pku.edu.cn/v2/*"],
-      "js": ["js/hide_me.js", "js/remove_avatar_frame.js"]
+      "js": ["js/hide_me.js", "js/remove_avatar_frame.js", "js/utils.js", "js/get_messages.js"]
     }
   ],
   "action": {
