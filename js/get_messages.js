@@ -14,12 +14,12 @@ function process_messages(results) {
         new_div_ele_2.textContent = `${m.content}`;
         new_div_ele.append(new_div_ele_1);
         new_div_ele.append(new_div_ele_2);
-        let margin = `margin: 2px auto 5px 3px`;
+        let margin = `margin: 2px auto 5px 3px; background: #D3EDF5`;
         if (m.dir == 0) {
         } else {
-            margin = `margin: 2px 3px 5px auto`;
+            margin = `margin: 2px 3px 5px auto; background: #e6e6e6`;
         }
-        new_div_ele.style = `${margin}; position: relative; max-width: ${new_div_ele2_width/1.5}px; border: 1px solid grey; border-radius: 3px; padding: 2px; overflow-wrap: anywhere; overflow-x: auto; width: fit-content;`;
+        new_div_ele.style = `${margin}; position: relative; max-width: ${new_div_ele2_width/1.3}px; border: 1px solid grey; border-radius: 3px; padding: 2px; overflow-wrap: anywhere; overflow-x: auto; width: fit-content;`;
         message_div.append(new_div_ele);
     }
     message_div.scrollTo(0, message_div.scrollHeight);
@@ -51,12 +51,15 @@ function get_message(user, count) {
 function inject_more_message() {
     let body_div = document.querySelector("#page-content");
     let nav_div = document.querySelector("#top-nav");
-    let chatting_div = document.querySelector("#bdwm-chatting");
+    let chatting_div = document.querySelector("#bdwm-chatting .bdwm-chatting-toggle");
+    let chatting_div_computed = getComputedStyle(chatting_div);
+    let chatting_div_height = parseFloat(chatting_div_computed.height);
+    let chatting_div_width = parseFloat(chatting_div_computed.width);
 
     let new_div_ele = document.createElement("div");
     let className = "load_more_messages";
     new_div_ele.className = className + " bdwm-chatting";
-    new_div_ele.style = `width: ${chatting_div.clientWidth}px; height: ${chatting_div.clientHeight}px; position: relatively; right: 5px; top: ${nav_div.clientHeight+5}px;`;
+    new_div_ele.style = `width: ${chatting_div_width}px; height: ${chatting_div_height}px; position: relatively; right: 5px; top: ${nav_div.clientHeight+5}px;`;
     let a_ele = document.createElement("a");
     a_ele.className="bdwm-chatting-toggle";
     let i_ele = document.createElement("i");
@@ -70,23 +73,23 @@ function inject_more_message() {
     new_div_ele.append(a_ele);
     body_div.append(new_div_ele);
 
-    let new_div_ele2_height = 350;
+    let new_div_ele2_height = 500;
 
     let new_div_ele2 = document.createElement("div");
     new_div_ele2.className = className + " bdwm-chatting open";
     new_div_ele2.style = `width: ${new_div_ele2_width}px; height: ${new_div_ele2_height}px; position: relatively; right: 5px; top: ${nav_div.clientHeight+5}px; display: none;`;
-    let btn = document.createElement("button");
+    let btn = document.createElement("div");
     btn.textContent = "×";
-    btn.style = "margin: 0px; padding: 0px; font-size: 20px; position: absolute; top: 0px; right: 0px; width: 24px; height: 24px;";
+    btn.style = "margin: 0px; padding: 3px; font-size: 20px; position: absolute; top: 0px; right: 0px; width: 24px; height: 24px; cursor: pointer; text-align: center;";
     btn.onclick = function (event) {
         new_div_ele2.style.display = 'none';
         // event.stopPropagation();
         event.preventDefault();
     }
     new_div_ele2.append(btn);
-    let btn2 = document.createElement("button");
+    let btn2 = document.createElement("div");
     btn2.textContent = "Go";
-    btn2.style = "margin: 0px; padding: 0px; font-size: 10px; position: absolute; top: 0px; right: 28px; width: 24px; height: 24px;";
+    btn2.style = "margin: 2px; padding: 3px; font-size: 16px; position: absolute; top: 0px; right: 28px; width: 44px; height: 20px; cursor: pointer; text-align: center; background: #e97c62; color: white; border-radius: 5px;";
     btn2.onclick = function (event) {
         let user = input1.value.trim();
         let count = parseInt(input2.value.trim());
@@ -98,10 +101,10 @@ function inject_more_message() {
     input1.placeholder = "ID";
     let input2 = document.createElement("input");
     input2.type = "text";
-    input2.style = "margin: 0px; padding: 2px; font-size: 14px; position: absolute; top: 0px; left: 136px; width: 34px; height: 24px;";
+    input2.style = "margin: 0px; padding: 2px; font-size: 14px; position: absolute; top: 0px; left: 136px; width: 54px; height: 24px;";
     input2.placeholder = "count";
     let new_div_ele2_1 = document.createElement("div");
-    new_div_ele2_1.style = `margin: 0px; padding: 0px; font-size: 14px; position: relative; top: 30px; left: 2px; width: ${new_div_ele2_width-6}px; height: ${new_div_ele2_height-35}px; border: 1px solid; overflow: auto;`;
+    new_div_ele2_1.style = `margin: 0px; padding: 0px; font-size: 14px; position: relative; top: 30px; left: 2px; width: ${new_div_ele2_width-6}px; height: ${new_div_ele2_height-35}px; border-top: 2px solid #d9d9d9; overflow: auto;`;
     new_div_ele2_1.id = "load_more_messages_result"
     new_div_ele2.append(btn);
     new_div_ele2.append(btn2);

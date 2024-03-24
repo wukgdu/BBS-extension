@@ -14,7 +14,10 @@ function hide_me() {
     hide_me_helper("#detail-list li[data-role=login-nickname]", "昵称：游客");
     hide_me_helper("#detail-list li[data-role=login-rankname]", "等级：一般站友");
     hide_me_helper("#detail-list li[data-role=login-numposts]", "文章：0");
-    document.querySelector("p.username").classList.remove("small");
+    let usernameDom = document.querySelector("p.username");
+    if (usernameDom) {
+        usernameDom.classList.remove("small");
+    }
 }
 
 hide_me();
