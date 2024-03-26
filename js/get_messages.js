@@ -11,7 +11,26 @@ function process_messages(results) {
         let new_div_ele_1 = document.createElement("div");
         let new_div_ele_2 = document.createElement("div");
         new_div_ele_1.textContent = new Date(m.time*1000).toLocaleString();
-        new_div_ele_2.textContent = `${m.content}`;
+        let new_div_ele_2_1 = document.createElement("div");
+        new_div_ele_2_1.textContent = m.content;
+        new_div_ele_2.append(new_div_ele_2_1);
+        if (m.with == "deliver") {
+            let h1idx = m.content.indexOf("https://bbs.pku.edu.cn/");
+            if (h1idx != -1) {
+                let new_div_ele_2_2 = document.createElement("a");
+                let h2idx = m.content.indexOf(" ", h1idx);
+                let url = "";
+                if (h2idx == -1) {
+                    url = m.content.slice(h1idx);
+                } else {
+                    url = m.content.slice(h1idx, h2idx);
+                }
+                new_div_ele_2_2.href = url;
+                new_div_ele_2_2.textContent = "[点击查看]";
+                new_div_ele_2_2.style = "cursor: pointer; color: #e97c62; text-decoration: underline;"
+                new_div_ele_2.append(new_div_ele_2_2);
+            }
+        }
         new_div_ele.append(new_div_ele_1);
         new_div_ele.append(new_div_ele_2);
         let margin = `margin: 2px auto 5px 3px; background: #D3EDF5`;
@@ -19,7 +38,7 @@ function process_messages(results) {
         } else {
             margin = `margin: 2px 3px 5px auto; background: #e6e6e6`;
         }
-        new_div_ele.style = `${margin}; position: relative; max-width: ${new_div_ele2_width/1.3}px; border: 1px solid grey; border-radius: 3px; padding: 2px; overflow-wrap: anywhere; overflow-x: auto; width: fit-content;`;
+        new_div_ele.style = `${margin}; position: relative; max-width: ${new_div_ele2_width/1.3}px; border: 1px solid grey; border-radius: 3px; padding: 5px; overflow-wrap: anywhere; overflow-x: auto; width: fit-content;`;
         message_div.append(new_div_ele);
     }
     message_div.scrollTo(0, message_div.scrollHeight);
@@ -56,8 +75,10 @@ function inject_more_message() {
     let chatting_div_height = parseFloat(chatting_div_computed.height);
     let chatting_div_width = parseFloat(chatting_div_computed.width);
 
-    let new_div_ele = document.createElement("div");
     let className = "load_more_messages";
+    document.querySelectorAll(`.${className}`).forEach(e => e.remove());
+
+    let new_div_ele = document.createElement("div");
     new_div_ele.className = className + " bdwm-chatting";
     new_div_ele.style = `width: ${chatting_div_width}px; height: ${chatting_div_height}px; position: relatively; right: 5px; top: ${nav_div.clientHeight+5}px;`;
     let a_ele = document.createElement("a");
